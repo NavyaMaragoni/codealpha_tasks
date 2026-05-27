@@ -1,0 +1,35 @@
+// build.gradle - This is the Gradle build file
+// It's like a recipe that tells Gradle how to build your Java project
+
+// Apply the Java plugin so Gradle knows this is a Java project
+plugins {
+    id 'java'
+    id 'application'  // Allows us to run the app with: gradle run
+}
+
+// Your project details
+group = 'com.codealpha'
+version = '1.0'
+
+// Which Java version to use
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+// The main class to run
+application {
+    mainClass = 'com.codealpha.HelloWorld'
+}
+
+// Where to download libraries from (like npm for Java)
+repositories {
+    mavenCentral()
+}
+
+// External libraries your project needs
+// (We don't need any for Hello World, but this is how you'd add them)
+dependencies {
+    // Example: implementation 'org.springframework:spring-core:5.3.0'
+    testImplementation 'junit:junit:4.13.2'  // For running tests
+}

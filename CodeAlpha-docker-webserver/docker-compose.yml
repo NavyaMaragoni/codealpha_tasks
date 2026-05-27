@@ -1,0 +1,11 @@
+version: '3'
+
+# docker-compose.yml makes it easy to start/stop with one command
+
+services:
+  webserver:
+    build: .                  # Build using our Dockerfile
+    container_name: my-website
+    ports:
+      - "8090:80"             # Visit http://localhost:8090 in your browser
+    restart: unless-stopped   # Restart automatically if it crashes

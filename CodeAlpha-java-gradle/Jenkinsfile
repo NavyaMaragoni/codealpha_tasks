@@ -1,0 +1,46 @@
+// Jenkinsfile for Task 3 - Java Gradle Project
+// This automates: Build → Test → Package
+
+pipeline {
+    agent any  // Run on any available agent
+
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+                echo 'Pulling code from GitHub...'
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Building Java project with Gradle...'
+                sh './gradlew build'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running unit tests...'
+                sh './gradlew test'
+            }
+        }
+
+        stage('Run App') {
+            steps {
+                echo 'Running the application...'
+                sh './gradlew run'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build and tests passed!'
+        }
+        failure {
+            echo 'Build failed. Please check the errors above.'
+        }
+    }
+}
