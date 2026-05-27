@@ -1,0 +1,53 @@
+// This is a Jenkins Pipeline script
+// It tells Jenkins WHAT to do and WHERE to run it
+
+pipeline {
+
+    // Run this job on our remote agent (not the master)
+    agent { label 'my-agent' }
+
+    stages {
+
+        // Step 1: Get the code
+        stage('Checkout') {
+            steps {
+                echo 'Getting the code...'
+                checkout scm
+            }
+        }
+
+        // Step 2: Build the project
+        stage('Build') {
+            steps {
+                echo 'Building the project...'
+                sh 'echo Build completed successfully!'
+            }
+        }
+
+        // Step 3: Run tests
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                sh 'echo All tests passed!'
+            }
+        }
+
+        // Step 4: Deploy
+        stage('Deploy') {
+            steps {
+                echo 'Deploying the application...'
+                sh 'echo App deployed!'
+            }
+        }
+    }
+
+    // This runs after all stages finish
+    post {
+        success {
+            echo 'Pipeline finished successfully!'
+        }
+        failure {
+            echo 'Something went wrong. Check the logs.'
+        }
+    }
+}

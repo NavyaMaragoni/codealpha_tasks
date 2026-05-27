@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+
+  # This is the Jenkins Master (main server)
+  jenkins-master:
+    image: jenkins/jenkins:lts
+    container_name: jenkins-master
+    ports:
+      - "8080:8080"     # Open browser at http://localhost:8080
+      - "50000:50000"   # Port used by agents to connect
+    volumes:
+      - jenkins_data:/var/jenkins_home
+    networks:
+      - jenkins-net
+
+  # This is a Jenkins Agent (worker machine)
+  jenkins-agent:
+    image: jenkins/inbound-agent:latest
+    container_name: jenkins-agent
+    environment:
+      - JENKINS_URL=http://jenkins-master:8080
+      - JENKINS_AGENT_NAME=my-agent
+      - JENKINS_SECRET=your_agent_secret_here   # Get this from Jenkins UI
+      - JENKINS_AGENT_WORKDIR=/home/jenkins/agent
+    networks:
+      - jenkins-net
+    depends_on:
+      - jenkins-master
+
+# Shared storage for Jenkins data
+volumes:
+  jenkins_data:
+
+# Network so master and agent can talk to each other
+networks:
+  jenkins-net:
+    driver: bridge
